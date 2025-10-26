@@ -1,0 +1,27 @@
+{
+  "name": "pomi",
+  "version": "1.0.0",
+  "description": "Pomi - Ethiopian Community Hub for Ottawa",
+  "private": true,
+  "workspaces": [
+    "backend",
+    "frontend"
+  ],
+  "scripts": {
+    "dev": "concurrently \"npm run dev --workspace=backend\" \"npm run dev --workspace=frontend\"",
+    "build": "npm run build --workspace=backend && npm run build --workspace=frontend",
+    "test": "npm test --workspaces",
+    "test:e2e": "playwright test --config=./frontend/playwright.config.ts",
+    "test:watch": "npm test --workspaces -- --watch",
+    "lint": "npm run lint --workspaces",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\"",
+    "type-check": "npm run type-check --workspaces"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.40.0",
+    "@types/node": "^20.10.0",
+    "concurrently": "^8.2.2",
+    "prettier": "^3.1.0",
+    "typescript": "^5.3.2"
+  }
+}
