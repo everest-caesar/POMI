@@ -1,0 +1,14 @@
+{
+  "root": true,
+  "extends": [],
+  "overrides": [
+    {
+      "files": ["backend/**/*.ts"],
+      "extends": ["./backend/.eslintrc.json"]
+    },
+    {
+      "files": ["frontend/**/*.ts", "frontend/**/*.tsx"],
+      "extends": ["./frontend/.eslintrc.json"]
+    }
+  ]
+}
