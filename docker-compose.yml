@@ -48,10 +48,84 @@ services:
       timeout: 5s
       retries: 5
 
+  minio:
+    image: minio/minio:latest
+    container_name: pomi-minio
+    environment:
+      MINIO_ROOT_USER: pomi_user
+      MINIO_ROOT_PASSWORD: pomi_password
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - minio_data:/data
+    command: server /data --console-address ":9001"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: pomi-backend
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: development
+      PORT: 3000
+      MONGODB_URI: mongodb://pomi_user:pomi_password@mongodb:27017/pomi?authSource=admin
+      REDIS_URL: redis://redis:6379
+      JWT_SECRET: your-super-secret-jwt-key-change-this-in-production
+      JWT_EXPIRE: 7d
+      CORS_ALLOWED_ORIGINS: http://localhost:5173,http://localhost:3001,http://localhost:3000
+      API_BASE_URL: http://localhost:3000/api/v1
+      ADMIN_INVITE_CODE: POMI_ADMIN_2024_SECRET_KEY
+      S3_ENDPOINT: http://minio:9000
+      S3_PUBLIC_URL: http://localhost:9000
+      S3_ACCESS_KEY: pomi_user
+      S3_SECRET_KEY: pomi_password
+      S3_BUCKET: marketplace
+      AWS_REGION: us-east-1
+      ADMIN_EMAIL: marakihay@gmail.com
+      ADMIN_PASSWORD: Christabel123@
+    depends_on:
+      mongodb:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
+    volumes:
+      - ./backend/src:/app/src
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3000/api/v1/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: pomi-frontend
+    ports:
+      - "3001:3001"
+    depends_on:
+      - backend
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3001"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
 volumes:
   postgres_data:
   mongodb_data:
   redis_data:
+  minio_data:
 
 networks:
   default:
