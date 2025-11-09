@@ -54,3 +54,9 @@ Thumbs.db
 
 # IDE extensions
 *.code-workspace
+
+# AutomatosX
+.automatosx/memory/
+.automatosx/workspaces/
+.automatosx/logs/
+automatosx.config.json  # Optional: remove to track config
