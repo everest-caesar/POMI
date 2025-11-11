@@ -10,6 +10,8 @@
   "scripts": {
     "dev": "concurrently \"npm run dev --workspace=backend\" \"npm run dev --workspace=frontend\"",
     "build": "npm run build --workspace=backend && npm run build --workspace=frontend",
+    "start": "npm run start --workspace=backend",
+    "start:frontend": "npm run preview --workspace=frontend",
     "test": "npm test --workspaces",
     "test:e2e": "playwright test --config=./frontend/playwright.config.ts",
     "test:watch": "npm test --workspaces -- --watch",
