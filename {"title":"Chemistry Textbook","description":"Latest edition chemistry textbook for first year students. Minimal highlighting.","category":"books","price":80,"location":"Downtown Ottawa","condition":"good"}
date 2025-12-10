@@ -1,0 +1,1 @@
+=== Creating Marketplace Listing 1: Laptop === curl -s -X POST http://localhost:3000/api/v1/marketplace/listings  -H Authorization: Bearer   -H Content-Type: application/json  -d {"title":"MacBook Pro 2021","description":"Gently used MacBook Pro, perfect condition. 16GB RAM, 512GB SSD.","category":"electronics","price":1200,"location":"Downtown Ottawa","condition":"good"}

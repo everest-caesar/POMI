@@ -1,0 +1,43 @@
+{
+  "_comment": "Grok CLI Configuration - Choose your provider and model",
+  "_instructions": [
+    "1. Set GROK_API_KEY environment variable with your API key",
+    "2. Choose between X.AI (grok-3-fast) or Z.AI (glm-4.6) below",
+    "3. Uncomment your preferred configuration",
+    "4. Enable in automatosx.config.json: 'grok': { 'enabled': true }"
+  ],
+
+  "_option_1_x_ai_official": "=== X.AI Official Grok (Recommended) ===",
+  "_baseURL_xai": "https://api.x.ai/v1",
+  "_model_xai": "grok-3-fast",
+  "_apiKey_xai": "YOUR_XAI_API_KEY_HERE",
+
+  "_option_2_z_ai_glm": "=== Z.AI GLM 4.6 (Code-Optimized Alternative) ===",
+  "_comment_alternative": "Using GLM 4.6 - X.AI config commented out above",
+  "baseURL": "https://api.z.ai/api/coding/paas/v4",
+  "model": "glm-4.6",
+  "apiKey": "3c073fcc04b44399a40c3c0adedd761d.lWHkwRjTNtZ1FevX",
+
+  "_setup_instructions": {
+    "x_ai_setup": [
+      "1. Get API key from: https://console.x.ai/api-keys",
+      "2. Replace YOUR_XAI_API_KEY_HERE above with your key (starts with 'xai-')",
+      "3. Or use environment variable: export GROK_API_KEY='xai-your-key'"
+    ],
+    "z_ai_setup": [
+      "1. Get API key from: https://z.ai/developer",
+      "2. Uncomment _baseURL_alt, _model_alt, _apiKey_alt (remove underscore prefix)",
+      "3. Comment out X.AI config",
+      "4. Replace YOUR_ZAI_API_KEY_HERE with your Z.AI key"
+    ],
+    "enable_in_automatosx": [
+      "Edit automatosx.config.json:",
+      "Find 'grok' section and change 'enabled': false to 'enabled': true"
+    ],
+    "verify": [
+      "Run: ax doctor grok",
+      "Run: ax providers list",
+      "Test: ax run backend 'Hello Grok!' --provider grok"
+    ]
+  }
+}
